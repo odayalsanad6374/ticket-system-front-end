@@ -1,0 +1,23 @@
+<div class="ticket-view-wrapper" *ngIf="ticket">
+  <h2 class="view-title">🎫 Ticket Details</h2>
+
+  <div class="details-grid">
+    <div><strong>Ticket Number:</strong> {{ ticket.ticketNumber }}</div>
+    <div><strong>Ticket Description:</strong> {{ ticket.description }}</div>
+    <div><strong>Tag Number:</strong> {{ ticket.tagNumber }}</div>
+    <div><strong>Date:</strong> {{ ticket.ticketDate | date:'dd/MM/yyyy' }}</div>
+    <div><strong>Customer:</strong> {{ ticket.customerName }}</div>
+    <div><strong>Branch:</strong> {{ ticket.branch }}</div>
+    <div><strong>Technician:</strong> {{ ticket.technicianName }}</div>
+    <div><strong>Priority:</strong> {{ ticket.ticketPriority }}</div>
+    <div><strong>Type:</strong> {{ ticket.ticketType }}</div>
+    <div><strong>Status:</strong> 
+      <span class="status-badge" [ngClass]="ticket.ticketStatus">
+        {{ ticket.ticketStatus }}
+      </span>
+    </div>
+    <div><strong>Created By:</strong> {{ ticket.createdByName }}</div>
+  </div>
+
+  <button pButton label="Back" icon="pi pi-arrow-left" class="p-button-secondary mt-4" style="border-radius: 5px; margin-bottom: 10px; margin-left: 10px;" (click)="Back()"></button>
+</div>

@@ -1,0 +1,63 @@
+@if (!component) {
+  <div class="modal {{styleClass}}" tabindex="-1" [id]="id" #modelWoComponent [attr.data-bs-backdrop]="staticBackdrop? 'static': 'non-static'" [attr.data-bs-keyboard]="staticBackdrop?'false':'true'">
+    <div class="modal-dialog modal-dialog-centered {{size}} {{mode}}" [ngClass]="{'modal-dialog-scrollable': scrollable}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <ng-container>
+            <ng-container *ngTemplateOutlet="modalHeader || defaultHeaderTemplate"></ng-container>
+          </ng-container>
+          <ng-template #defaultHeaderTemplate>
+            <h3 class="modal-title text-truncate" [ngStyle]="{'color': headerColor}">{{header }}</h3>
+          </ng-template>
+          @if (showCloseButton) {
+            <button type="button" class="btn fs-4" (click)="close()" pTooltip="{{'close' }}" tooltipPosition="top" >
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          }
+        </div>
+        <div class="modal-body">
+          @if (showTemplate || alwaysRender) {
+            <ng-container *ngTemplateOutlet="modalBody"></ng-container>
+          }
+        </div>
+        @if (modalFooter) {
+          <div class="modal-footer">
+            @if (showTemplate) {
+              <ng-container *ngTemplateOutlet="modalFooter;"></ng-container>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
+
+@if (component) {
+  <div  class="modal {{id+'-modal'}} {{styleClass}}" tabindex="-1" [id]="id" #modelWComponent [attr.data-bs-backdrop]="staticBackdrop? 'static': 'non-static'"
+    [attr.data-bs-keyboard]="staticBackdrop?'false':'true'">
+    <div class="modal-dialog modal-dialog-centered {{size}} {{mode}}">
+      <div class="modal-content">
+        @if (showHeader) {
+          <div class="modal-header">
+            <ng-container>
+              <ng-container *ngTemplateOutlet="modalHeader || defaultHeaderTemplate"></ng-container>
+            </ng-container>
+            <ng-template #defaultHeaderTemplate>
+              <h5 class="modal-title text-truncate" [ngStyle]="{'color': headerColor}">{{header }}</h5>
+            </ng-template>
+            @if (showCloseButton) {
+              <button type="button" class="btn fs-4" (click)="close()" pTooltip="{{'close' }}" tooltipPosition="top" >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            }
+          </div>
+        }
+        <div  class = "modal-body" >
+          @if (showTemplate || alwaysRender) {
+            <div #contentContainer></div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,128 @@
+<div class="table-wrapper">
+  <h2 class="table-title">📋 Tickets </h2>
+
+<div class="filters mb-3">
+  <!-- Filter Inputs -->
+  <input type="text" pInputText placeholder="Ticket Number" [(ngModel)]="ticketFilter.ticketNumber" class="p-inputtext-sm mr-2" />
+
+  <input type="text" pInputText placeholder="Tag Number" [(ngModel)]="ticketFilter.tagNumber" class="p-inputtext-sm mr-2" />
+
+  <p-dropdown 
+  [options]="technicianUsers" 
+  optionLabel="name"
+  optionValue="id"
+  placeholder="Select User"
+  [(ngModel)]="ticketFilter.technicianId"
+  class="p-dropdown-sm mr-2" *ngIf="currentUser?.roleId !== 2">
+</p-dropdown>
+
+  <p-dropdown 
+  [options]="Customers" 
+  optionLabel="name"
+  optionValue="id"
+  placeholder="Select Customer"
+  [(ngModel)]="ticketFilter.customerId"
+  class="p-dropdown-sm mr-2" *ngIf="currentUser?.roleId !== 2">
+</p-dropdown>
+
+   <p-dropdown 
+    [options]="priorityOptions" 
+    placeholder="Select Priority"
+    [(ngModel)]="ticketFilter.priority" 
+    class="p-dropdown-sm mr-2"
+  ></p-dropdown>
+
+  <p-dropdown 
+    [options]="typeOptions" 
+    placeholder="Select Type"
+    [(ngModel)]="ticketFilter.ticketType" 
+    class="p-dropdown-sm mr-2"
+  ></p-dropdown>
+
+  <p-dropdown 
+    [options]="statusOptions" 
+    placeholder="Select Status"
+    [(ngModel)]="ticketFilter.status" 
+    class="p-dropdown-sm mr-2"
+  ></p-dropdown>
+
+  <input type="date" [(ngModel)]="ticketFilter.startDate" class="mr-2" />
+  <input type="date" [(ngModel)]="ticketFilter.endDate" class="mr-2" />
+</div>
+
+<!-- Buttons aligned right -->
+<div class="mb-3 d-flex justify-content-end" style="gap: 0.5rem;">
+  <button pButton type="button" label="Filter" icon="pi pi-filter" (click)="loadTickets()" class="p-button-sm" style="border-radius: 5px;"></button>
+  <button pButton  type="button" label="Reset" icon="pi pi-times" (click)="resetFilters()" class="p-button-sm p-button-secondary" style="border-radius: 5px;"></button>
+</div>
+
+  <p-table
+    #table
+    [value]="tickets"
+    [paginator]="true" 
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [responsiveLayout]="'scroll'" 
+    [globalFilterFields]="['ticketNumber', 'description', 'ticketStatus']"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Total: {totalRecords} records"
+    styleClass="p-datatable-striped p-datatable-sm"
+    [rows]="ticketFilter.pageSize"
+    [totalRecords]="totalRecords"
+    [lazy]="true"
+    (onLazyLoad)="onPageChange($event)"
+    [responsiveLayout]="'scroll'"
+    [loading]="loading"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Ticket Number</th>
+        <th>Tag Number</th>
+        <th>Date</th>
+        <th>Customer</th>
+        <th>Branch</th>
+        <th>Technician</th>
+        <th>Priority</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th></th>
+        
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-ticket>
+      <tr>
+        <td>{{ ticket.ticketNumber }}</td>
+        <td>{{ ticket.tagNumber }}</td>
+        <td>{{ ticket.ticketDate | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ ticket.customerName }}</td>
+        <td>{{ ticket.branch }}</td>
+        <td>{{ ticket.technicianName }}</td>
+
+        <td>{{ ticket.ticketPriority }}</td>
+        <td>{{ ticket.ticketType }}</td>
+
+        <td>
+          <span
+            class="status-badge"
+            [ngClass]="{
+              'active': ticket.ticketStatus === 'New',
+              'inactive': ticket.ticketStatus === 'Done',
+              'pending': ticket.ticketStatus === 'Inprogress'
+            }"
+          >
+            {{ ticket.ticketStatus }}
+          </span>
+        </td>
+        <td>
+  <button pButton pRipple icon="pi pi-eye" class="p-button-text p-button-sm" (click)="viewTicket(ticket.id)"></button>  
+</td>
+      </tr>
+    </ng-template>
+
+    <!-- <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="3">No ticket found.</td>
+      </tr>
+    </ng-template> -->
+  </p-table>
+</div>
