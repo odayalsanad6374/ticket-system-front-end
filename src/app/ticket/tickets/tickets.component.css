@@ -200,10 +200,188 @@ p-table {
     transition: border-color 0.3s ease;
 }
 
+.table-wrapper {
+  margin: 2rem auto;
+  padding: 2rem;
+  max-width: 90%;
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-/* .test{
-  height: 38px !important;
-  max-width: 400px!important;
-  margin-left: 20px! important;
-  background-color: red;
-} */
+.table-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #222;
+  font-weight: 700;
+  font-size: 1.8rem;
+  user-select: none;
+}
+
+
+:host ::ng-deep.p-input-icon-left {
+  width: 250px;
+}
+
+:host ::ng-deep.p-inputtext {
+  border-radius: 25px !important;
+  border: 1.5px solid #ced4da !important;
+  padding: 8px 16px !important;
+  font-size: 0.95rem !important;
+  transition: border-color 0.3s ease;
+}
+
+:host ::ng-deep.p-inputtext:focus {
+  border-color: #ff4b2b !important;
+  box-shadow: 0 0 5px rgba(255, 75, 43, 0.5) !important;
+}
+
+p-table {
+  font-size: 0.95rem;
+}
+
+/* Header styles */
+:host ::ng-deep .p-datatable-thead > tr > th {
+  background-color: #ff4b2b;
+  color: #fff;
+  font-weight: 700;
+  /* text-transform: uppercase; */
+  padding: 12px 18px;
+  border: none !important;
+  user-select: none;
+  letter-spacing: 0.06em;
+  vertical-align: middle;
+}
+
+/* Sort icon color */
+:host ::ng-deep.p-sortable-column .p-sortable-column-icon {
+  color: #fff !important;
+}
+
+/* Body rows styles */
+:host ::ng-deep.p-datatable-tbody > tr {
+  transition: background-color 0.3s ease;
+  cursor: default;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th:hover {
+  background-color: #ff4b2b !important; /* لون مختلف عند المرور */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+:host ::ng-deep.p-datatable-tbody > tr:hover {
+  background-color: #ffe6df;
+}
+
+/* Data cells */
+:host ::ng-deep.p-datatable-tbody > tr > td {
+  padding: 12px 18px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+}
+
+/* Status badges */
+:host ::ng-deep.status-badge {
+  padding: 5px 14px;
+  margin-left: 10px;
+  border-radius: 15px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  user-select: none;
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+}
+
+:host ::ng-deep.status-badge.Done {
+  background-color: #28a745;
+  box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
+}
+
+:host ::ng-deep.status-badge.New {
+  background-color: #dc3545;
+  box-shadow: 0 0 8px rgba(220, 53, 69, 0.5);
+}
+
+:host ::ng-deep.status-badge.Inprogress {
+  background-color: #ffc107;
+  color: #333;
+  box-shadow: 0 0 8px rgba(255, 193, 7, 0.6);
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+ 
+.filters input,
+.filters .p-dropdown,
+.filters .p-calendar {
+  min-width: 150px;
+}
+ 
+.status-badge {
+  padding: 0.4em 0.6em;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+}
+.status-badge.Done { background-color: green; }
+.status-badge.New { background-color: gray; }
+.status-badge.Inprogress { background-color: orange; }
+
+ .p-inputtext {
+    padding: 8px 16px !important;
+    font-size: 0.95rem !important;
+    transition: border-color 0.3s ease;
+}
+
+.ticket-view-wrapper {
+  /* padding: 2rem; */
+  background: #fff;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: auto;
+  margin-top: 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  
+}
+
+.view-title {
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin-bottom: 2rem; */
+  font-size: 1.6rem;
+  color: #222;
+  background-color: #ff4b2b;
+    height: 60px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    color: wheat;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  font-size: 1rem;
+  padding: 2rem;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  color: white;
+}
+.status-badge.New { background-color: gray; }
+.status-badge.Inprogress { background-color: orange; color: black; }
+.status-badge.Done { background-color: green; }

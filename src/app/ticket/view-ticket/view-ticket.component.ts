@@ -4,10 +4,12 @@ import { TicketService } from '../../Core/services/ticket.service';
 import { ToastModule } from 'primeng/toast';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { Ticket } from '../../Core/model/ticket';
+import { TicketPriority } from '../../Core/enum/ticket-priority.enum';
+import { TicketStatus } from '../../Core/enum/ticket-status.enum';
 
 @Component({
   selector: 'app-view-ticket',
@@ -15,7 +17,6 @@ import { ButtonModule } from 'primeng/button';
   imports: [ToastModule,
       TableModule,
       CommonModule,
-      HttpClientModule,
       DropdownModule,
       FormsModule,
       ButtonModule ],
@@ -24,23 +25,34 @@ import { ButtonModule } from 'primeng/button';
 })
 export class ViewTicketComponent {
 
+  ticketId!: number;
+  ticket?: Ticket;
+  
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private ticketService = inject(TicketService);
 
 
-  ticketId!: number;
-  ticket: any;
-
   ngOnInit(): void {
     this.ticketId = +this.route.snapshot.paramMap.get('id')!;
+    this.getTicketById();
+  }
+
+  private getTicketById(){
     this.ticketService.getTicketById(this.ticketId).subscribe(data => {
       this.ticket = data;
     });
   }
+  
+  getPriorityLabel(status: number): string {
+    return TicketPriority[status];
+  }
 
+  getStatusLabel(status: number): string {
+    return TicketStatus[status];
+  }
+  
   Back(){
     this.router.navigate(['/tickets']);
   }
-
 }

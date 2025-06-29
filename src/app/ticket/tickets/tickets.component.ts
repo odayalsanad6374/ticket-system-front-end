@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ToastModule } from 'primeng/toast';
 import { TableModule } from 'primeng/table';
 import { MessageService } from 'primeng/api';
@@ -9,6 +9,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
+import { TicketStatus } from '../../Core/enum/ticket-status.enum';
+import { enumToOptions } from '../../Core/utils/enum_utils';
+import { TicketPriority } from '../../Core/enum/ticket-priority.enum';
+import { Ticket } from '../../Core/model/ticket';
+import { Customers } from '../../Core/model/customers';
+import { User } from '../../Core/model/user';
+import { ModalComponent } from '../../Core/component/modal/modal.component';
 
 @Component({
   selector: 'app-tickets',
@@ -19,16 +26,24 @@ import { Router } from '@angular/router';
     HttpClientModule,
     DropdownModule,
     FormsModule,
-    ButtonModule],
+    ButtonModule,
+    ModalComponent
+  ],
   templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.css',
   providers: [MessageService]
 })
 export class TicketsComponent {
+  @ViewChild('forgotPassword') forgotPassword!: ModalComponent;
 
-  private router = inject(Router);
+  technicianUsers: User[] = []
+  Customers: Customers[] = []
+  tickets: Ticket[] = [];
+  totalRecords: number = 0;
+  loading: boolean = false;
+  selectedTicket?: Ticket;
   private ticketService = inject(TicketService);
-
+  private router = inject(Router);
   currentUser = this.ticketService.getUser();
 
   ticketFilter = {
@@ -37,7 +52,6 @@ export class TicketsComponent {
     technicianId: null,
     customerId: null,
     priority: null,
-    ticketType: null,
     status: null,
     startDate: null,
     endDate: null,
@@ -45,29 +59,8 @@ export class TicketsComponent {
     pageSize: 5
   };
 
-  statusOptions = [
-    { label: 'New', value: 0 },
-    { label: 'Inprogress', value: 1 },
-    { label: 'Done', value: 2 }
-  ];
-
-  priorityOptions = [
-    { label: 'Low', value: 0 },
-    { label: 'Medium', value: 1 },
-    { label: 'High', value: 2 }
-  ];
-
-  typeOptions = [
-    { label: 'Manual', value: 0 },
-    { label: 'Vist', value: 1 }
-  ];
-
-  technicianUsers: any[] = []
-  Customers: any[] = []
-
-  tickets: any[] = [];
-  totalRecords: number = 0;
-  loading: boolean = false;
+  statusOptions = enumToOptions(TicketStatus);
+  priorityOptions = enumToOptions(TicketPriority);
 
   ngOnInit(): void {
     this.loadTechnicianUsers();
@@ -82,11 +75,10 @@ export class TicketsComponent {
 
   loadTickets(): void {
     this.loading = true;
-
     this.ticketService.getTickets(this.ticketFilter).subscribe({
       next: (response) => {
         this.tickets = response.items;
-        this.totalRecords = response.totalCount;
+        this.totalRecords = response.totalCount || response.length;
         this.loading = false;
       },
       error: () => {
@@ -102,7 +94,6 @@ export class TicketsComponent {
       technicianId: null,
       customerId: null,
       priority: null,
-      ticketType: null,
       status: null,
       startDate: null,
       endDate: null,
@@ -114,7 +105,7 @@ export class TicketsComponent {
 
   loadTechnicianUsers(): void {
     this.ticketService.getTechnicianUsers().subscribe({
-      next: (response: any) => {
+      next: (response: User[]) => {
         this.technicianUsers = response;
       }
     });
@@ -122,13 +113,30 @@ export class TicketsComponent {
 
   loadCustomers(): void {
     this.ticketService.getCustomers().subscribe({
-      next: (response: any) => {
+      next: (response: Customers[]) => {
         this.Customers = response;
       }
     });
   }
 
   viewTicket(id: number): void {
-    this.router.navigate(['/view', id]);
+    this.selectedTicket = this.tickets.find(t => t.id === id);
+    this.forgotPassword.show();
+  }
+
+  close(){
+    this.forgotPassword.hide();
+  }
+
+  moreDetails(){
+    this.router.navigate(['/view', this.selectedTicket?.id]);
+  }
+
+  getPriorityLabel(status: number): string {
+    return TicketPriority[status];
+  }
+
+  getStatusLabel(status: number): string {
+    return TicketStatus[status];
   }
 }

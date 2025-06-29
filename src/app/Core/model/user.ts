@@ -4,11 +4,5 @@ export class User {
     name?:string;
     email?:string;
     password? :string;
-    Role?:Role
-  }
-
-  export class Role {
-    id?: number;
-    name?:string;
-    
+    roleId?:number
   }

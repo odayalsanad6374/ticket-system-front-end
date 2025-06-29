@@ -5,6 +5,9 @@ import {
 import { inject, Injectable } from '@angular/core';
 import { Observable} from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Ticket } from '../model/ticket';
+import { Customers } from '../model/customers';
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root',
@@ -19,10 +22,6 @@ export class TicketService {
   }
 
   getTickets(filter: any): Observable<any> {
-    if (this.getUser()?.roleId == 2) {
-      filter.technicianId = this.getUser().id;
-    }
-
     const params = new HttpParams({ fromObject: this.cleanFilter(filter) });
     const url = `${this.environment.apiUrl}/Ticket`;
     return this.http.get<any>(url, { params });
@@ -49,14 +48,13 @@ export class TicketService {
     return this.http.get<any>(url, { params });
   }
 
-  getCustomers(): Observable<any> {
+  getCustomers(): Observable<Customers[]> {
     const url = `${this.environment.apiUrl}/Customer`;
     return this.http.get<any>(url);
   }
 
-  getTicketById(id: number): Observable<any> {
-    const params = new HttpParams({ fromObject: { id: id } });
-    const url = `${this.environment.apiUrl}/Ticket/view`;
-    return this.http.get<any>(url, { params });
+  getTicketById(id: number): Observable<Ticket> {
+    const url = `${this.environment.apiUrl}/Ticket/${id}`;
+    return this.http.get<any>(url);
   }
 }

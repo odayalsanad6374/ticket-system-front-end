@@ -2,7 +2,7 @@
   <div class="modal {{styleClass}}" tabindex="-1" [id]="id" #modelWoComponent [attr.data-bs-backdrop]="staticBackdrop? 'static': 'non-static'" [attr.data-bs-keyboard]="staticBackdrop?'false':'true'">
     <div class="modal-dialog modal-dialog-centered {{size}} {{mode}}" [ngClass]="{'modal-dialog-scrollable': scrollable}">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header view-title">
           <ng-container>
             <ng-container *ngTemplateOutlet="modalHeader || defaultHeaderTemplate"></ng-container>
           </ng-container>

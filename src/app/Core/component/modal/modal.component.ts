@@ -10,7 +10,7 @@ declare const bootstrap: { Modal: new (arg0: HTMLElement, arg1: { focus: boolean
   standalone: true,
   imports: [CommonModule, TooltipModule],
   templateUrl: './modal.component.html',
-  styleUrl: './modal.component.scss'
+  styleUrl: './modal.component.css'
 })
 export class ModalComponent implements AfterViewInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
@@ -21,7 +21,7 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
   @Input() headerColor = 'initial'; // HEADER TEXT COLOR
   @Input() alwaysRender = false; // IF TRUE THE BODY ALWAYS RENDER EVEN THE MODAL IS CLOSED
   @Input() staticBackdrop = false; // MODAL DISMISS IF THE USER CLICK ON BACKDROP
-  @Input() showCloseButton = true; // SHOW CLOSE BTN ON HEADER
+  @Input() showCloseButton = false; // SHOW CLOSE BTN ON HEADER
   @Input() size: 'modal-sm' | 'modal-lg' | 'modal-xl' | 'modal-md' = 'modal-md'; // MODAL SIZE
   @Input() mode: 'modal-fullscreen' | 'modal-fullscreen-sm-down' | 'modal-fullscreen-md-down' | 'modal-fullscreen-lg-down' | 'modal-fullscreen-xl-down' | 'modal-fullscreen-xxl-down' | '' = ''; // IF HEADER IS FULL SCREEN MODE
   @Input() scrollable = false;
